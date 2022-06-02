@@ -10,7 +10,6 @@ public class BattleManagerUI : MonoBehaviour
 
     public GameObject targetingMarker;
     public GameObject battleMenu;
-    public GameObject GameOver;
 
 
     int _currentPickIndex;
@@ -46,14 +45,17 @@ public class BattleManagerUI : MonoBehaviour
             }
             else if (Input.GetKeyDown(KeyCode.Return))
             {
+                targetingMarker.SetActive(false);
                 battleManagerInstance.Player_PickTarget(_currentPickIndex);
                 mode = false;
             }
+            
         }
     }
 
     void OnTurnStarted()
     {
+        targetingMarker.SetActive(true);
         battleMenu.SetActive(!battleManagerInstance.currentBattler.isEnemy);
         targetingMarker.transform.position = battleManagerInstance.currentBattler.transform.position + Vector3.up * MarkerOffset;
     }
@@ -61,6 +63,7 @@ public class BattleManagerUI : MonoBehaviour
     public void SwitchToTargetingMode()
     {
         mode = true;
+        targetingMarker.SetActive(true);
         battleMenu.SetActive(false);
 
         _currentPickIndex = 0;

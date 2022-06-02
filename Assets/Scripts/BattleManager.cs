@@ -11,8 +11,7 @@ public class BattleManager : MonoBehaviour
     public bool playerMadeTurn;
     public List<Battler> battlers;
     public Battler currentBattler, targetBattler;
-    public GameObject Background;
-    public GameObject Floor;
+    public GameObject GameOver;
 
     [SerializeField] float timeToGetToAttackPoints;
     [SerializeField] Transform playerAttackPoint;
@@ -139,8 +138,8 @@ public class BattleManager : MonoBehaviour
         targetBattler.animationState.SetAnimation(0, targetBattler.hitAnim, false);
         targetBattler.animationState.AddAnimation(0, targetBattler.idleAnim, true, 0);
         yield return new WaitForSeconds(0.5f);
-        targetBattler.ChangeHealth(Random.Range(30, 50));
-        //targetBattler.ChangeHealth(100);
+        //targetBattler.ChangeHealth(Random.Range(30, 50));
+        targetBattler.ChangeHealth(100);
 
 
         if (currentBattler.usesSpine)
@@ -218,11 +217,7 @@ public class BattleManager : MonoBehaviour
         }
         if (PlayerTeam.Count == 0 || EnemyTeam.Count == 0)
         {
-
-            enemies.SetActive(false);
-            players.SetActive(false);
-            Background.SetActive(false);
-            Floor.SetActive(false);
+            GameOver.SetActive(true);
         }
     }
 

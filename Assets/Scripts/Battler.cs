@@ -16,6 +16,8 @@ public class Battler : MonoBehaviour
     public float markerOffset; 
     public bool usesSpine;
     public GameObject Smoke;
+    public HealthBar HB;
+    public bool _isAlive = true;
 
     public Spine.AnimationState animationState;
     [SpineAnimation]
@@ -61,9 +63,11 @@ public class Battler : MonoBehaviour
     }
     public void Death(GameObject battler)
     {
-        Destroy(battler);
+        _isAlive = false;
+        EventOnDie?.Invoke();
         Vector3 EffectPosition = battler.transform.position;
         EffectPosition.y += 5f;
         Instantiate(Smoke, EffectPosition, battler.transform.rotation);
+        Destroy(battler);
     }
 }
