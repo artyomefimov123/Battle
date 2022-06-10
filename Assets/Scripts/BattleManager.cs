@@ -16,12 +16,11 @@ public class BattleManager : MonoBehaviour
     [SerializeField] float timeToGetToAttackPoints;
     [SerializeField] Transform playerAttackPoint;
     [SerializeField] Transform enemyAttackPoint;
-    Vector3[] oldPositions = new Vector3[2]; 
-
+    Vector3[] oldPositions = new Vector3[2];
+    public GameObject Blur;
+    public Camera camera;
     public List<Battler> EnemyTeam;
     public List<Battler> PlayerTeam;
-    public GameObject enemies;
-    public GameObject players;
     public bool PlayerTurn => !currentBattler.isEnemy;
 
     bool _skippedTurn;
@@ -94,7 +93,8 @@ public class BattleManager : MonoBehaviour
 
         oldPositions[0] = currentBattler.transform.position;
         oldPositions[1] = targetBattler.transform.position;
-
+        
+        camera.orthographicSize = 10f;
         if (currentBattler.usesSpine)
         {
             currentBattler.animationState.SetAnimation(0, currentBattler.walkAnim, true);
@@ -103,7 +103,7 @@ public class BattleManager : MonoBehaviour
         {
             targetBattler.animationState.SetAnimation(0, targetBattler.walkAnim, true);
         }
-
+        Blur.SetActive(true);
         float progress = 0;
         while (progress < timeToGetToAttackPoints)
         {
@@ -138,8 +138,8 @@ public class BattleManager : MonoBehaviour
         targetBattler.animationState.SetAnimation(0, targetBattler.hitAnim, false);
         targetBattler.animationState.AddAnimation(0, targetBattler.idleAnim, true, 0);
         yield return new WaitForSeconds(0.5f);
-        //targetBattler.ChangeHealth(Random.Range(30, 50));
-        targetBattler.ChangeHealth(100);
+        targetBattler.ChangeHealth(Random.Range(30, 50));
+        //targetBattler.ChangeHealth(100);
 
 
         if (currentBattler.usesSpine)
@@ -191,7 +191,8 @@ public class BattleManager : MonoBehaviour
         {
             targetBattler.animationState.SetAnimation(0, targetBattler.idleAnim, true);
         }
-
+        Blur.SetActive(false);
+        camera.orthographicSize = 20f;
         End();
     }
     public void End()
